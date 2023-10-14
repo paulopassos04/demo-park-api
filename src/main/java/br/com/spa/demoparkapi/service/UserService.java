@@ -2,10 +2,11 @@ package br.com.spa.demoparkapi.service;
 
 import br.com.spa.demoparkapi.entity.User;
 import br.com.spa.demoparkapi.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -16,5 +17,12 @@ public class UserService {
     @Transactional
     public User create(User user){
         return this.userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User findByUsername(String username){
+        Optional<User> user = Optional.ofNullable(this.userRepository.findByUsername(username));
+
+        return user.orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

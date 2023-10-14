@@ -28,6 +28,7 @@ public class User implements Serializable{
     private LocalDateTime date_update;
     private String created_by;
     private String modified_by;
+
     public enum Role {
         ROLE_ADMIN, ROLE_CLIENT
     }
