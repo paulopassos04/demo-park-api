@@ -1,4 +1,4 @@
-package br.com.config;
+package br.com.spa.demoparkapi.config;
 
 import java.util.TimeZone;
 import org.springframework.context.annotation.Configuration;
