@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
@@ -25,6 +27,12 @@ public class UserController {
     public ResponseEntity<User> findByUsername(@PathVariable("username") String username){
         User user = this.userService.findByUsername(username);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<User>> findAll(){
+        List<User> users = this.userService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @PutMapping("/{id}")
