@@ -25,4 +25,15 @@ public class UserService {
 
         return user.orElseThrow(() -> new RuntimeException("User not found"));
     }
+
+    public User findById(Long id){
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public User updatePassword(Long id, String password){
+       User user = findById(id);
+       user.setPassword(password);
+        return user;
+    }
 }

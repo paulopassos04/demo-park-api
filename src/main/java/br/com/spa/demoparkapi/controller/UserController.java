@@ -26,4 +26,10 @@ public class UserController {
         User user = this.userService.findByUsername(username);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> findById(@PathVariable("id") Long id, @RequestBody User user){
+        user = this.userService.updatePassword(id, user.getPassword());
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
 }
