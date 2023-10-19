@@ -23,7 +23,7 @@ public class User implements Serializable{
     private String password;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 25)
-    private Role role;
+    private Role role = Role.ROLE_CLIENT;
     private LocalDateTime date_create;
     private LocalDateTime date_update;
     private String created_by;

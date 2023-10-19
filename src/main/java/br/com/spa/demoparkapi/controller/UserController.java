@@ -1,5 +1,9 @@
 package br.com.spa.demoparkapi.controller;
 
+import br.com.spa.demoparkapi.dto.UserCreateDTO;
+import br.com.spa.demoparkapi.dto.UserPasswordDTO;
+import br.com.spa.demoparkapi.dto.UserResponseDTO;
+import br.com.spa.demoparkapi.dto.mapper.UserMapper;
 import br.com.spa.demoparkapi.entity.User;
 import br.com.spa.demoparkapi.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,26 +22,26 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody User user){
-       user = this.userService.create(user);
-       return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<UserResponseDTO> addUser(@RequestBody UserCreateDTO createDTO){
+      User user = this.userService.create(UserMapper.toUser(createDTO));
+       return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toUserDTO(user));
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> findByUsername(@PathVariable("username") String username){
+    public ResponseEntity<UserResponseDTO> findByUsername(@PathVariable("username") String username){
         User user = this.userService.findByUsername(username);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toUserDTO(user));
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> findAll(){
+    public ResponseEntity<List<UserResponseDTO>> findAll(){
         List<User> users = this.userService.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(users);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable("id") Long id, @RequestBody User user){
-        user = this.userService.updatePassword(id, user.getPassword());
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+    public ResponseEntity<Void> findById(@PathVariable("id") Long id, @RequestBody UserPasswordDTO dto){
+       User user = this.userService.updatePassword(id, dto.getCurrentPassword(), dto.getNewPassword(), dto.getConfirmPassword());
+        return ResponseEntity.noContent().build();
     }
 }
