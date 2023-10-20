@@ -7,14 +7,15 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserMapper {
 
-    public static User toUser(UserCreateDTO createDTO){
+    public static User toUser(UserCreateDTO createDTO) {
         return new ModelMapper().map(createDTO, User.class);
     }
 
-    public static UserResponseDTO toUserDTO(User user){
+    public static UserResponseDTO toUserDTO(User user) {
         String role = user.getRole().name().substring("ROLE_".length());
         PropertyMap<User, UserResponseDTO> props = new PropertyMap<User, UserResponseDTO>() {
             @Override
@@ -28,7 +29,7 @@ public class UserMapper {
     }
 
     public static List<UserResponseDTO> toListDTO(List<User> users){
-        
+        return users.stream().map(UserMapper::toUserDTO).collect(Collectors.toList());
     }
 
 }

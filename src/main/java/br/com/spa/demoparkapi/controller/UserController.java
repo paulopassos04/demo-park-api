@@ -36,7 +36,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> findAll(){
         List<User> users = this.userService.findAll();
-        return ResponseEntity.status(HttpStatus.OK).body(users);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListDTO(users));
     }
 
     @PutMapping("/{id}")
