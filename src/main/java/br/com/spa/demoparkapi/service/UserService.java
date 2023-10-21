@@ -1,8 +1,11 @@
 package br.com.spa.demoparkapi.service;
 
 import br.com.spa.demoparkapi.entity.User;
+import br.com.spa.demoparkapi.exception.EntityNotFoundException;
+import br.com.spa.demoparkapi.exception.UserNameUniqueViolationException;
 import br.com.spa.demoparkapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +20,19 @@ public class UserService {
 
     @Transactional
     public User create(User user){
-        return this.userRepository.save(user);
+        try {
+            return this.userRepository.save(user);
+        } catch (DataIntegrityViolationException ex){
+            throw new UserNameUniqueViolationException(String.format("Username '%s' já cadastrado", user.getUsername()));
+        }
+
     }
 
     @Transactional(readOnly = true)
     public User findByUsername(String username){
         Optional<User> user = Optional.ofNullable(this.userRepository.findByUsername(username));
 
-        return user.orElseThrow(() -> new RuntimeException("User not found"));
+        return user.orElseThrow(() -> new EntityNotFoundException(String.format("Usuário username '%s' não encontrado", username)));
     }
 
     public User findById(Long id){
