@@ -2,6 +2,7 @@ package br.com.spa.demoparkapi.service;
 
 import br.com.spa.demoparkapi.entity.User;
 import br.com.spa.demoparkapi.exception.EntityNotFoundException;
+import br.com.spa.demoparkapi.exception.PasswordInvalidException;
 import br.com.spa.demoparkapi.exception.UserNameUniqueViolationException;
 import br.com.spa.demoparkapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class UserService {
     }
 
     public User findById(Long id){
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(() -> new PasswordInvalidException("Usuario não encontrado"));
     }
 
     @Transactional(readOnly = true)
@@ -47,11 +48,12 @@ public class UserService {
     @Transactional
     public User updatePassword(Long id, String currentPassword, String newPassword, String confirmPassword){
         if (!newPassword.equals(confirmPassword)){
-            throw new RuntimeException("Nova senha não confere com confirmação de senha.");
+            throw new PasswordInvalidException(String.format("Nova senha não confere com confirmação de senha."));
         }
-       User user = findById(id);
+
+        User user = findById(id);
         if (!user.getPassword().equals(currentPassword)){
-            throw new RuntimeException("Sua senha não confere");
+            throw new PasswordInvalidException(String.format("Sua senha não confere"));
         }
        user.setPassword(newPassword);
         return user;
