@@ -57,4 +57,11 @@ public class UserService {
        user.setPassword(newPassword);
         return user;
     }
+
+    @Transactional
+    public void delete(Long id){
+        findById(id);
+        userRepository.deleteById(id);
+    }
+
 }

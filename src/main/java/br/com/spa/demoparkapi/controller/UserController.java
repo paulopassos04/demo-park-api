@@ -85,4 +85,17 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Deletar usuário", description = "Deletar usuário usando o id",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                    @ApiResponse(responseCode = "404", description = "Usuario não encontrado",
+                            content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+            })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@Valid @PathVariable("id") Long id){
+        this.userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
