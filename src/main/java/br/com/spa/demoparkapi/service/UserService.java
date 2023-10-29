@@ -36,7 +36,7 @@ public class UserService {
     }
 
     public User findById(Long id){
-        return userRepository.findById(id).orElseThrow(() -> new PasswordInvalidException("Usuario não encontrado"));
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
     }
 
     @Transactional(readOnly = true)
