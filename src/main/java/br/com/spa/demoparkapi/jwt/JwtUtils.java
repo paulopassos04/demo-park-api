@@ -5,6 +5,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -48,25 +49,38 @@ public class JwtUtils {
         return new JwtToken(token);
     }
 
-    private static Claims getClaimsFromToken(String token){
+    private static Claims getClaimsFromToken(String token) {
         try {
             return Jwts.parser()
                     .verifyWith(generateKey())
                     .build()
                     .parseSignedClaims(refactorToken(token)).getPayload();
-        }catch (JwtException ex){
+        } catch (JwtException ex) {
             log.error(String.format("Token invalido %s", ex.getMessage()));
         }
 
         return null;
     }
 
-    public static String getUsernameFromToken(String token){
+    public static String getUsernameFromToken(String token) {
         return getUsernameFromToken(token);
     }
 
-    private static String refactorToken(String token){
-        if (token.contains(JWT_BEARER)){
+    public static boolean isTokenValid(String token) {
+        try {
+            Jwts.parser()
+                    .verifyWith(generateKey())
+                    .build()
+                    .parseSignedClaims(refactorToken(token));
+            return true;
+        } catch (JwtException ex) {
+            log.error(String.format("Token invalido %s", ex.getMessage()));
+        }
+        return false;
+    }
+
+    private static String refactorToken(String token) {
+        if (token.contains(JWT_BEARER)) {
             return token.substring(JWT_BEARER.length());
         }
         return token;
