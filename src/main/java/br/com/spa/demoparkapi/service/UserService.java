@@ -35,6 +35,12 @@ public class UserService {
         return user.orElseThrow(() -> new EntityNotFoundException(String.format("Usuário username '%s' não encontrado", username)));
     }
 
+
+    @Transactional(readOnly = true)
+    public User.Role findRoleByUsername(String username){
+        return userRepository.findRoleByUsername(username);
+    }
+
     public User findById(Long id){
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Usuario não encontrado"));
     }
