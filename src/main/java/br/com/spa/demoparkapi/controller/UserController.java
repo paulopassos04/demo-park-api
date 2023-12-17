@@ -22,7 +22,7 @@ import java.util.List;
 
 @Tag(name = "Users", description = "Contem todas as operações CRUD")
 @RestController
-@RequestMapping(value = "api/v1/users")
+@RequestMapping(value = "/api/v1/user")
 public class UserController {
 
     @Autowired

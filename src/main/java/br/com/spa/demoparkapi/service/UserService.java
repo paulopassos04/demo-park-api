@@ -7,6 +7,7 @@ import br.com.spa.demoparkapi.exception.UserNameUniqueViolationException;
 import br.com.spa.demoparkapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -18,9 +19,13 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Transactional
     public User create(User user){
         try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             return this.userRepository.save(user);
         } catch (DataIntegrityViolationException ex){
             throw new UserNameUniqueViolationException(String.format("Username '%s' já cadastrado", user.getUsername()));
@@ -57,10 +62,10 @@ public class UserService {
         }
 
         User user = findById(id);
-        if (!user.getPassword().equals(currentPassword)){
+        if (!passwordEncoder.matches(confirmPassword, user.getPassword())){
             throw new PasswordInvalidException(String.format("Sua senha não confere"));
         }
-       user.setPassword(newPassword);
+       user.setPassword(passwordEncoder.encode(newPassword));
         return user;
     }
 
