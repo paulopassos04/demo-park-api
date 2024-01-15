@@ -2,16 +2,12 @@ package br.com.spa.demoparkapi.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
-import lombok.ToString;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import java.util.HashMap;
 import java.util.Map;
 
-@Getter
-@ToString
 public class ErrorMessage {
 
     private String path;
@@ -48,5 +44,51 @@ public class ErrorMessage {
         }
     }
 
+    public String getPath() {
+        return path;
+    }
 
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getStatusText() {
+        return statusText;
+    }
+
+    public void setStatusText(String statusText) {
+        this.statusText = statusText;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Map<String, String> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(Map<String, String> errors) {
+        this.errors = errors;
+    }
 }

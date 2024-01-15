@@ -9,12 +9,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.*;
-import lombok.*;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "tb_users")
 @EntityListeners(AuditingEntityListener.class)
@@ -48,6 +43,73 @@ public class User implements Serializable {
 
     public enum Role {
         ROLE_ADMIN, ROLE_CLIENT
+    }
+
+    public User() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public LocalDateTime getDate_create() {
+        return date_create;
+    }
+
+    public void setDate_create(LocalDateTime date_create) {
+        this.date_create = date_create;
+    }
+
+    public LocalDateTime getDate_update() {
+        return date_update;
+    }
+
+    public void setDate_update(LocalDateTime date_update) {
+        this.date_update = date_update;
+    }
+
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
+    }
+
+    public String getModified_by() {
+        return modified_by;
+    }
+
+    public void setModified_by(String modified_by) {
+        this.modified_by = modified_by;
     }
 
     @Override
