@@ -67,7 +67,8 @@ public class UserController {
                         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
 
-        @PutMapping("/{id}")
+        @PatchMapping("/{id}")
+        @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT') AND (#id == authentication.principal.id)")
         public ResponseEntity<Void> updatePassword(@PathVariable("id") Long id,
                         @Valid @RequestBody UserPasswordDTO dto) {
                 User user = this.userService.updatePassword(id, dto.getCurrentPassword(), dto.getNewPassword(),

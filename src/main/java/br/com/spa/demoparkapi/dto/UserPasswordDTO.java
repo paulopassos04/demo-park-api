@@ -15,6 +15,8 @@ public class UserPasswordDTO {
     @Size(min = 6, max = 6)
     private String confirmPassword;
 
+    public UserPasswordDTO(){}
+
     public UserPasswordDTO(String currentPassword, String newPassword, String confirmPassword) {
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
