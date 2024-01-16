@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,9 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toUserDTO(user));
         }
 
-        @Operation(summary = "Recuperar um usuário pelo username", description = "Recuperar um usuário pelo username", responses = {
+        @Operation(summary = "Recuperar um usuário pelo username", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
                         @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
+                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
                         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
         @GetMapping("/{username}")
@@ -51,10 +53,10 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toUserDTO(user));
         }
 
-        @Operation(summary = "Listar todos os usuários", description = "Listar todos os usuários cadastrados", responses = {
-                        @ApiResponse(responseCode = "200", description = "Lista com todos os usuários cadastrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDTO.class))))
+        @Operation(summary = "Listar todos os usuários", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
+                        @ApiResponse(responseCode = "200", description = "Lista com todos os usuários cadastrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDTO.class)))),
+                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
-
         @GetMapping
         @PreAuthorize("hasRole('ROLE_ADMIN')")
         public ResponseEntity<List<UserResponseDTO>> findAll() {
@@ -62,9 +64,10 @@ public class UserController {
                 return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListDTO(users));
         }
 
-        @Operation(summary = "Atualizar senha", description = "Atualizar senha", responses = {
+        @Operation(summary = "Atualizar senha", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
                         @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
                         @ApiResponse(responseCode = "400", description = "Senha não confere", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
                         @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
 
