@@ -1,9 +1,9 @@
 package br.com.spa.demoparkapi.controller;
 
 import br.com.spa.demoparkapi.dto.user.UserCreateDTO;
+import br.com.spa.demoparkapi.dto.user.UserMapper;
 import br.com.spa.demoparkapi.dto.user.UserPasswordDTO;
 import br.com.spa.demoparkapi.dto.user.UserResponseDTO;
-import br.com.spa.demoparkapi.dto.user.UserMapper;
 import br.com.spa.demoparkapi.entity.User;
 import br.com.spa.demoparkapi.exception.ErrorMessage;
 import br.com.spa.demoparkapi.service.UserService;
@@ -31,9 +31,9 @@ public class UserController {
         private UserService userService;
 
         @Operation(summary = "Criar um novo usuário", description = "Recurso para criar um novo usuário", responses = {
-                        @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
-                        @ApiResponse(responseCode = "409", description = "Usuário e-mail já cadastrado no sistema", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                        @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada invalidos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
+                @ApiResponse(responseCode = "409", description = "Usuário e-mail já cadastrado no sistema", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada invalidos", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
         @PostMapping
         public ResponseEntity<UserResponseDTO> addUser(@Valid @RequestBody UserCreateDTO createDTO) {
@@ -42,9 +42,9 @@ public class UserController {
         }
 
         @Operation(summary = "Recuperar um usuário pelo username", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
-                        @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
-                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                @ApiResponse(responseCode = "200", description = "Recurso recuperado com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserResponseDTO.class))),
+                @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
         @GetMapping("/{username}")
         @PreAuthorize("hasRole('ADMIN') OR hasRole('CLIENT') AND #username == authentication.principal.username")
@@ -54,8 +54,8 @@ public class UserController {
         }
 
         @Operation(summary = "Listar todos os usuários", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
-                        @ApiResponse(responseCode = "200", description = "Lista com todos os usuários cadastrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDTO.class)))),
-                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                @ApiResponse(responseCode = "200", description = "Lista com todos os usuários cadastrados", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = UserResponseDTO.class)))),
+                @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
         @GetMapping
         @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -65,24 +65,24 @@ public class UserController {
         }
 
         @Operation(summary = "Atualizar senha", description = "Requisição exige um Bearer Token. Acesso restrito a ADMIN | CLIENT", security = @SecurityRequirement(name = "security"), responses = {
-                        @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
-                        @ApiResponse(responseCode = "400", description = "Senha não confere", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                        @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
-                        @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                @ApiResponse(responseCode = "204", description = "Senha atualizada com sucesso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                @ApiResponse(responseCode = "400", description = "Senha não confere", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                @ApiResponse(responseCode = "403", description = "Usuário sem permissão para acessar este recurso", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class))),
+                @ApiResponse(responseCode = "404", description = "Recurso não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
 
         @PatchMapping("/{id}")
         @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT') AND (#id == authentication.principal.id)")
         public ResponseEntity<Void> updatePassword(@PathVariable("id") Long id,
-                        @Valid @RequestBody UserPasswordDTO dto) {
+                                                   @Valid @RequestBody UserPasswordDTO dto) {
                 User user = this.userService.updatePassword(id, dto.getCurrentPassword(), dto.getNewPassword(),
-                                dto.getConfirmPassword());
+                        dto.getConfirmPassword());
                 return ResponseEntity.noContent().build();
         }
 
         @Operation(summary = "Deletar usuário", description = "Deletar usuário usando o id", responses = {
-                        @ApiResponse(responseCode = "204", description = "", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
-                        @ApiResponse(responseCode = "404", description = "Usuario não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
+                @ApiResponse(responseCode = "204", description = "", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Void.class))),
+                @ApiResponse(responseCode = "404", description = "Usuario não encontrado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessage.class)))
         })
         @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@Valid @PathVariable("id") Long id) {

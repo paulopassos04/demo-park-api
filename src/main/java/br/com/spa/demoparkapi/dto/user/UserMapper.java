@@ -3,7 +3,6 @@ package br.com.spa.demoparkapi.dto.user;
 import br.com.spa.demoparkapi.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
