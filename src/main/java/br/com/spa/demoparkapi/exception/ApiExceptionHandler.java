@@ -35,7 +35,7 @@ public class ApiExceptionHandler {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .body(new ErrorMessage(request, HttpStatus.CONFLICT, ex.getMessage()));
         }
-        
+
         @ExceptionHandler(EntityNotFoundException.class)
         public ResponseEntity<ErrorMessage> entityNotFoundException(
                         RuntimeException ex, HttpServletRequest request) {
