@@ -1,4 +1,4 @@
-package br.com.spa.demoparkapi.dto;
+package br.com.spa.demoparkapi.dto.user;
 
 public class UserResponseDTO {
 

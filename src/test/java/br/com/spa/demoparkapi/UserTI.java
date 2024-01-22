@@ -1,8 +1,8 @@
 package br.com.spa.demoparkapi;
 
-import br.com.spa.demoparkapi.dto.UserCreateDTO;
-import br.com.spa.demoparkapi.dto.UserPasswordDTO;
-import br.com.spa.demoparkapi.dto.UserResponseDTO;
+import br.com.spa.demoparkapi.dto.user.UserCreateDTO;
+import br.com.spa.demoparkapi.dto.user.UserPasswordDTO;
+import br.com.spa.demoparkapi.dto.user.UserResponseDTO;
 import br.com.spa.demoparkapi.exception.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

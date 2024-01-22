@@ -1,9 +1,9 @@
 package br.com.spa.demoparkapi.controller;
 
-import br.com.spa.demoparkapi.dto.UserCreateDTO;
-import br.com.spa.demoparkapi.dto.UserPasswordDTO;
-import br.com.spa.demoparkapi.dto.UserResponseDTO;
-import br.com.spa.demoparkapi.dto.mapper.UserMapper;
+import br.com.spa.demoparkapi.dto.user.UserCreateDTO;
+import br.com.spa.demoparkapi.dto.user.UserPasswordDTO;
+import br.com.spa.demoparkapi.dto.user.UserResponseDTO;
+import br.com.spa.demoparkapi.dto.user.UserMapper;
 import br.com.spa.demoparkapi.entity.User;
 import br.com.spa.demoparkapi.exception.ErrorMessage;
 import br.com.spa.demoparkapi.service.UserService;

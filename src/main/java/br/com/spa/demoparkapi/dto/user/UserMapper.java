@@ -1,7 +1,5 @@
-package br.com.spa.demoparkapi.dto.mapper;
+package br.com.spa.demoparkapi.dto.user;
 
-import br.com.spa.demoparkapi.dto.UserCreateDTO;
-import br.com.spa.demoparkapi.dto.UserResponseDTO;
 import br.com.spa.demoparkapi.entity.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;

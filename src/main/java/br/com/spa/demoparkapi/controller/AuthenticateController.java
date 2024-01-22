@@ -1,7 +1,7 @@
 package br.com.spa.demoparkapi.controller;
 
-import br.com.spa.demoparkapi.dto.UserLoginDTO;
-import br.com.spa.demoparkapi.dto.UserResponseDTO;
+import br.com.spa.demoparkapi.dto.user.UserLoginDTO;
+import br.com.spa.demoparkapi.dto.user.UserResponseDTO;
 import br.com.spa.demoparkapi.exception.ErrorMessage;
 import br.com.spa.demoparkapi.jwt.JwtToken;
 import br.com.spa.demoparkapi.jwt.JwtUserDetailsService;
@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
